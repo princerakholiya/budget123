@@ -1,92 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
-    
-    <record id="budget_budget_menu_action" model="ir.actions.act_window">
-        <field name="name">Budgets</field>
-        <field name="res_model">budget.budget</field>
-        <field name="view_mode">tree,kanban,form</field>
-    </record>
-
-
-    <record id="crm_lost_reason_view_form" model="ir.ui.view">
-        <field name="name">budget.budget.form.view</field>
-        <field name="model">budget.budget</field>
-        <field name="arch" type="xml">
-            <form string="Test">
-                <sheet>
-                    <header>
-                        <div>
-                            <h1>
-                                
-                                <field name="name" placeholder="Hello! I'am your placeholder" />
-                            </h1>
-                        </div>
-                    </header>
-
-
-                  
-                        <notebook>
-                            <page string="Description">
-                                
-                                    <field name="budget_line_ids" />
-                                
-                            </page>
-                            
-                        </notebook>
-                    
-
-                    
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-
-    <record id="budget_budget_view_kanban" model="ir.ui.view">
-        <field name="name">budget.budget.kanban</field>
-        <field name="model">budget.budget</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create">
-                <field name="name"></field>
-                <templates>
-                    <t t-name="kanban-menu">
-                       
-                        <h5 role="menuitem" class="o_kanban_card_manage_title">
-                            <span>View</span>
-                        </h5>
-                        <div role="menuitem">
-                            <a name="action_view_tasks" type="object">Tasks</a>
-                        </div>
-                        <ul class="oe_kanban_colorpicker" data-field="color"/>
-                    </t>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            
-                                <div class="o_kanban_record_title">
-                                    <field name="name" />
-                                </div>
-                                
-                        </div>
-                        
-                    </t>
-                    
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    
-
-</odoo> -->
-
-
-<odoo>
-    <!--
-Budgets
--->
- 
 
     <record model="ir.ui.view" id="crossovered_budget_view_form">
         <field name="name">budget.budget.view.form</field>
@@ -131,7 +45,7 @@ Budgets
                                     <span invisible="not date_to">To <field name="date_to" class='oe_inline' readonly="state == 'done'"/></span>
                                 </div>
                             </div>
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="company_id"/>
                         </group>
                     </group>
 
@@ -173,7 +87,9 @@ Budgets
                             <span>View</span>
                         </h5>
                         
-                            <a class="dropdown-item" role="menuitem" data-field="displayed_image_attachment_id" name="action_view_configuration" type="set_cover">Configuration</a>
+                        
+                            <a class="dropdown-item" role="menuitem" name="action_view_configuration" type="object">Configuration</a>
+                        
                         
                         
                             <a class="dropdown-item" role="menuitem" name="action_view_set_cover_image" type="object">Set cover image</a>

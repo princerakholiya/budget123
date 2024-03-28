@@ -74,16 +74,16 @@ class BudgetBudget(models.Model):
         }
         return action
     
-    parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget ID', readonly=True)
+    revised_id = fields.Many2one('budget.budget', string='Revised Budget Id', readonly=True)
 
-    revised_id = fields.One2many('budget.budget','parent_budget_id', string='Revised Budget Id', readonly=True)
+    child_budget_id = fields.One2many('budget.budget','revised_id', string='Parent Budget ID',readonly=True)
 
     def action_budget_revise(self):
         new_budget = self.copy({
             "state": "draft",
-            "parent_budget_id": self.id,
+            "revised_id": self.id,
         })
-        self.revised_id=new_budget
+        self.child_budget_id=new_budget
         return {
             "type": "ir.actions.act_window",
             "name": "Revised Budget",
@@ -94,7 +94,7 @@ class BudgetBudget(models.Model):
         }
 
     def action_budget_confirm(self):
-        self.parent_budget_id.state="revised"
+        self.revised_id.state="revised"
         self.write({"state": "confirm"})
 
     
