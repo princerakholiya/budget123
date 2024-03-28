@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <templates xml:space="preserve">
+        <t t-name="blog_cog_menu.NewOption" owl="1">
+            <DropdownItem t-on-click="actionNewOption" class="'o_cog_menu'">
+                New Option
+            </DropdownItem>
+        </t>
+    </templates>
+</odoo>

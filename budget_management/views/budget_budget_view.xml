@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    
+    <record id="budget_budget_menu_action" model="ir.actions.act_window">
+        <field name="name">Budgets</field>
+        <field name="res_model">budget.budget</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+
+    <record id="crm_lost_reason_view_form" model="ir.ui.view">
+        <field name="name">budget.budget.form.view</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <form string="Test">
+                <sheet>
+                    <header>
+                        <div>
+                            <h1>
+                                
+                                <field name="name" placeholder="Hello! I'am your placeholder" />
+                            </h1>
+                        </div>
+                    </header>
+
+
+                  
+                        <notebook>
+                            <page string="Description">
+                                
+                                    <field name="budget_line_ids" />
+                                
+                            </page>
+                            
+                        </notebook>
+                    
+
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="budget_budget_view_kanban" model="ir.ui.view">
+        <field name="name">budget.budget.kanban</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create">
+                <field name="name"></field>
+                <templates>
+                    <t t-name="kanban-menu">
+                       
+                        <h5 role="menuitem" class="o_kanban_card_manage_title">
+                            <span>View</span>
+                        </h5>
+                        <div role="menuitem">
+                            <a name="action_view_tasks" type="object">Tasks</a>
+                        </div>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            
+                                <div class="o_kanban_record_title">
+                                    <field name="name" />
+                                </div>
+                                
+                        </div>
+                        
+                    </t>
+                    
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    
+
+</odoo> -->
+
+
+<odoo>
+    <!--
+Budgets
+-->
+ 
+
+    <record model="ir.ui.view" id="crossovered_budget_view_form">
+        <field name="name">budget.budget.view.form</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget">
+                <header>
+                    <button string="Confirm" name="action_budget_confirm" invisible="state != 'draft'" type="object"
+                            class="oe_highlight"/>
+                    <button string="Approve" name="action_budget_validate" invisible="state != 'confirm'" type="object"
+                            class="oe_highlight"/>
+                    <button string="Done" name="action_budget_done" invisible="state != 'validate'" type="object"
+                            class="oe_highlight"/>
+                    <button string="Revised" name="action_budget_revise" type="object"
+                            class="oe_highlight"/>
+                    <button string="Reset to Draft" name="action_budget_draft" invisible="state != 'cancel'" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,done"/>
+                </header>
+                <field name="company_id" invisible="1"/>
+                <sheet string="Budget">
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="state != 'draft'" placeholder="e.g. Budget 2023: Optimistic"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" readonly="state != 'draft'" domain="[('share', '=', False)]"/>
+                            <field name="revised_id" />
+                        </group>
+                        <group>
+                            <label for="date_from" string="Period"/>
+                            <div>
+                                <div name="date_edit_only" class="o_row oe_edit_only">
+                                    <field name="date_from" class='oe_inline' readonly="state != 'draft'"/>
+                                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="date_to" class='oe_inline' readonly="state != 'draft'"/>
+                                </div>
+                                <div name="date_read_only" class="o_row oe_read_only">
+                                    <span invisible="not date_from">From <field name="date_from" class='oe_inline' readonly="state == 'done'"/></span>
+                                    <span invisible="not date_to">To <field name="date_to" class='oe_inline' readonly="state == 'done'"/></span>
+                                </div>
+                            </div>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Description">
+                            
+                                <field name="budget_line_ids" />
+                            
+                        </page>
+                        
+                    </notebook>
+                    
+                    
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="budget_budget_view_kanban" model="ir.ui.view">
+        <field name="name">budget.budget.kanban</field>
+        <field name="model">budget.budget</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create" action="action_view_budget_line" type="object">
+                
+                <field name="name"></field>
+                <templates>
+                    <t t-name="kanban-menu">
+                        <t t-if="widget.editable"><a type="set_cover" class="dropdown-item" role="menuitem" data-field="displayed_image_attachment_id">Set Cover Image</a></t>
+                        <h5 role="menuitem" class="o_kanban_card_manage_title">
+                            <span>View</span>
+                        </h5>
+                        <div role="menuitem">
+                            <a name="action_view_configuration" type="object">Configuration</a>
+                        </div>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            
+                                <div class="o_kanban_record_title">
+                                    <field name="name" />
+
+                                </div>
+                                
+                                
+                        </div>
+                        
+                    </t>
+                    
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    
+
+    <record model="ir.actions.act_window" id="budget_budget_menu_action">
+        <field name="name">Budgets</field>
+        <field name="res_model">budget.budget</field>
+        <field name="view_mode">kanban,form</field>
+         <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to create a new budget.
+            </p>
+            <p>
+                Use budgets to compare actual with expected revenues and costs
+            </p>
+        </field>
+    </record>
+    
+    
+    
+
+</odoo>

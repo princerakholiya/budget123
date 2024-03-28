@@ -1,0 +1,1 @@
+from . import budget_automatic_entry_wizard
