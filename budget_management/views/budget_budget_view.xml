@@ -162,28 +162,48 @@ Budgets
             <kanban class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create" action="action_view_budget_line" type="object">
                 
                 <field name="name"></field>
+                <field name="date_from"></field>
+                <field name="date_to"></field>
+                <field name="user_id"/>
+                <field name="color"></field>
                 <templates>
                     <t t-name="kanban-menu">
-                        <t t-if="widget.editable"><a type="set_cover" class="dropdown-item" role="menuitem" data-field="displayed_image_attachment_id">Set Cover Image</a></t>
+                    
                         <h5 role="menuitem" class="o_kanban_card_manage_title">
                             <span>View</span>
                         </h5>
-                        <div role="menuitem">
-                            <a name="action_view_configuration" type="object">Configuration</a>
-                        </div>
+                        
+                            <a class="dropdown-item" role="menuitem" data-field="displayed_image_attachment_id" name="action_view_configuration" type="set_cover">Configuration</a>
+                        
+                        
+                            <a class="dropdown-item" role="menuitem" name="action_view_set_cover_image" type="object">Set cover image</a>
+                        
                         <ul class="oe_kanban_colorpicker" data-field="color"/>
                     </t>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            
-                                <div class="o_kanban_record_title">
-                                    <field name="name" />
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} #{lost_ribbon ? 'oe_kanban_card_ribbon' : ''} oe_kanban_global_click oe_kanban_card d-flex flex-column">
 
+                        
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_title mb-3">
+                                <field name="name" />
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <i class="fa fa-clock-o" style="margin-right: 10px" role="img" aria-label="Period" title="Period"/>
+                                    <t t-out="record.date_from.value"/>-
+                                    <t t-out="record.date_to.value"/>
                                 </div>
+                                <div class="col-2">
+                                    <span class="float-end">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </span>
+                                </div>
+                            </div>
                                 
                                 
                         </div>
-                        
+                        </div>
                     </t>
                     
                 </templates>

@@ -32,6 +32,8 @@ class BudgetBudget(models.Model):
     company_id = fields.Many2one(
         "res.company", "Company", required=True, default=lambda self: self.env.company
     )
+    
+    color = fields.Integer("Color")
 
     budget_line_ids = fields.One2many("budget.line", "crossovered_budget_id")
 
