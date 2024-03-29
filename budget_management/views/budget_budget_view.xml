@@ -46,6 +46,7 @@
                                 </div>
                             </div>
                             <field name="company_id"/>
+                            <field name="on_over_budget"/>
                         </group>
                     </group>
 
@@ -86,18 +87,13 @@
                         <h5 role="menuitem" class="o_kanban_card_manage_title">
                             <span>View</span>
                         </h5>
-                        
-                        
                             <a class="dropdown-item" role="menuitem" name="action_view_configuration" type="object">Configuration</a>
-                        
-                        
-                        
                             <a class="dropdown-item" role="menuitem" name="action_view_set_cover_image" type="object">Set cover image</a>
                         
                         <ul class="oe_kanban_colorpicker" data-field="color"/>
                     </t>
                     <t t-name="kanban-box">
-                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} #{lost_ribbon ? 'oe_kanban_card_ribbon' : ''} oe_kanban_global_click oe_kanban_card d-flex flex-column">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click oe_kanban_card d-flex flex-column">
 
                         
                         <div class="oe_kanban_global_click">

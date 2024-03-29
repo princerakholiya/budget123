@@ -16,7 +16,7 @@ class AutomaticEntryWizard(models.TransientModel):
         default="monthly",
         required=True,
     )
-    analytic_plans = fields.Many2many("account.analytic.plan")
+    # analytic_plans = fields.Many2many("account.analytic.plan")
     
     def _get_months_in_range(self, date_from, date_to):
         months_in_range = []
@@ -25,7 +25,6 @@ class AutomaticEntryWizard(models.TransientModel):
             months_in_range.append(current_month)
             current_month += relativedelta(months=1)
         return months_in_range
-
 
     def do_action(self):
         if self.periods == "monthly":

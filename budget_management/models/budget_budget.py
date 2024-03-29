@@ -1,5 +1,6 @@
-from odoo import fields, models
-
+from odoo import fields, models, api, _
+from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 class BudgetBudget(models.Model):
     _name = "budget.budget"
@@ -34,8 +35,15 @@ class BudgetBudget(models.Model):
     )
     
     color = fields.Integer("Color")
-
     budget_line_ids = fields.One2many("budget.line", "crossovered_budget_id")
+    on_over_budget = fields.Selection(
+        [
+            ("warning", "Warning"),
+            ("restriction", "Restriction"), 
+        ],
+        "On over budget",
+        
+    )
 
     def action_budget_confirm(self):
         self.write({"state": "confirm"})
@@ -68,14 +76,13 @@ class BudgetBudget(models.Model):
             "type": "ir.actions.act_window",
             "name": "Budget line",
             "res_model": "budget.line",
-            "view_mode": "tree",
+            "view_mode": "tree,pivot,gantt",
             "target": "current",
             "domain": [("id", "in", budget_line_ids)],
         }
         return action
     
     revised_id = fields.Many2one('budget.budget', string='Revised Budget Id', readonly=True)
-
     child_budget_id = fields.One2many('budget.budget','revised_id', string='Parent Budget ID',readonly=True)
 
     def action_budget_revise(self):
@@ -96,5 +103,7 @@ class BudgetBudget(models.Model):
     def action_budget_confirm(self):
         self.revised_id.state="revised"
         self.write({"state": "confirm"})
+        
+    
 
     

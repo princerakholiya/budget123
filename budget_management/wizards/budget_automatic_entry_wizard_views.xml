@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <field name="periods" />
-                    <field name="analytic_plans" />
+                    <!-- <field name="analytic_plans" /> -->
 
                     <footer>
                         <button string="Create" name="do_action" type="object"
